@@ -8,6 +8,7 @@
 import sys
 import pandas as pd
 import os
+import subprocess
 
 
 
@@ -64,11 +65,19 @@ else:
 
 
 
-#-------------------------------------------
-#-------------------------------------------
+try:#We check if the database already exists
+    subprocess.check_call(["blastdbcmd", "-info", "-db", database],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+    print("""------------------------
+------------------------
+Database already exists!
+Info of the DB:""")
+    os.system("blastdbcmd -info -db "+database)
+    print("""------------------------
+------------------------""")
+except:
+    #Create the index so magicblast can do the alignment
+    os.system('makeblastdb -in '+database+' -dbtype nucl')
 
-#Create the index so magicblast can do the alignment
-os.system('makeblastdb -in '+database+' -dbtype nucl')
 #Magicblast
 command_magicblast_2 = "blastn -query all_reads_merged.txt -db "+database+" -out ./results_script_blast/all_seq_aligned.txt -outfmt 6"
 command_magicblast = "blastn -query all_reads_merged.txt -db "+database+" -out ./results_script_blast/all_seq_aligned.sam -outfmt 17"
