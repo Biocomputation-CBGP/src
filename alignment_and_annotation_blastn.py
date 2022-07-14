@@ -30,10 +30,10 @@ else:
     pass
 
 #Checking if the directory is there so we do not overwritted
-if os.path.isdir('./results_script_magicblast'):
-    txt = input("results_script_magicblast is going to be overwrited, are you sure? [y/n]:  ")
+if os.path.isdir('./results_script_blast'):
+    txt = input("results_script_blast is going to be overwrited, are you sure? [y/n]:  ")
     if txt == "y":
-        os.system("mkdir -p results_script_magicblast")
+        os.system("mkdir -p results_script_blast")
     elif txt == "n":
         quit()
     else:
@@ -42,7 +42,7 @@ Assumed NO, Exiting program
 ------------------------------""")
         quit()
 else:
-    os.system("mkdir results_script_magicblast") #Directory in which we are going to store the results
+    os.system("mkdir results_script_blast") #Directory in which we are going to store the results
 
 
 #-------------------------------------------
@@ -70,16 +70,16 @@ else:
 #Create the index so magicblast can do the alignment
 os.system('makeblastdb -in '+database+' -dbtype nucl')
 #Magicblast
-command_magicblast_2 = "blastn -query all_reads_merged.txt -db "+database+" -out ./results_script_magicblast/all_seq_aligned.txt -outfmt 6"
-command_magicblast = "blastn -query all_reads_merged.txt -db Putida -out ./results_script_magicblast/all_seq_aligned.sam -outfmt 17"
+command_magicblast_2 = "blastn -query all_reads_merged.txt -db "+database+" -out ./results_script_blast/all_seq_aligned.txt -outfmt 6"
+command_magicblast = "blastn -query all_reads_merged.txt -db "+database+" -out ./results_script_blast/all_seq_aligned.sam -outfmt 17"
 
 #Si quisieramos poner mas columnas seria como lo siguiente '-outfmt "6 std qlen"'
 #https://www.metagenomics.wiki/tools/blast/blastn-output-format-6
 
 os.system(command_magicblast)
 os.system(command_magicblast_2)
-# = "sed -i '1s/^/query\sacc.\tsubject\sacc.\t%\sidentity\talignment\slength\tmismatches\tgap\sopens\tq.\sstart\tq.\send\ts.\sstart\ts.\send\tevalue\tbit\sscore\n/' -f results_script_magicblast\/all_seq_aligned.txt"
-command_add_header_txt = "echo 'query acc.\tsubject acc.\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score' | cat - ./results_script_magicblast/all_seq_aligned.txt > temp && mv temp ./results_script_magicblast/all_seq_aligned.txt"
+# = "sed -i '1s/^/query\sacc.\tsubject\sacc.\t%\sidentity\talignment\slength\tmismatches\tgap\sopens\tq.\sstart\tq.\send\ts.\sstart\ts.\send\tevalue\tbit\sscore\n/' -f results_script_blast\/all_seq_aligned.txt"
+command_add_header_txt = "echo 'query acc.\tsubject acc.\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score' | cat - ./results_script_blast/all_seq_aligned.txt > temp && mv temp ./results_script_blast/all_seq_aligned.txt"
 
 os.system(command_add_header_txt)
 #sed: -e expression #1, char 126: unterminated `s' command
@@ -102,8 +102,8 @@ columns_ann = ["Locus Tag","Feature Type","Start","End","Strand","Gene Name","Pr
 #------------------
 
 #------------------
-file_magicblast = "./results_script_magicblast/all_seq_aligned.txt"
-final_table_name = "./results_script_magicblast/table_reads_genes_description.csv"
+file_magicblast = "./results_script_blast/all_seq_aligned.txt"
+final_table_name = "./results_script_blast/table_reads_genes_description.csv"
 
 #Load tables and fix them to be pandas tables
 table_ann = pd.read_csv(file_annotation)
@@ -111,20 +111,6 @@ table_ann = pd.read_csv(file_annotation)
 
 table_seq = pd.read_table(file_magicblast)
 
-# headers_seq = file_seq[0].split("\t") #Text processing needed to create the pands table
-# #file_seq = file_seq[3:]
-# for i, read in enumerate(file_seq):
-#     file_seq[i] = read.strip().split("\t")
-# table_seq = pd.DataFrame(file_seq, columns=headers_seq)
-#Remove duplicates in case of existing
-table_seq.drop_duplicates(subset ="query acc.", inplace=True)
-#Change type of some columns from str to numeric
-table_seq[["s. start"]] = table_seq[["s. start"]].apply(pd.to_numeric) #To perform numeric comparation
-
-
-#------------------
-
-#------------------
 #Create a cross join table to select rows with matches
 
 table_seq['key'] = 1
@@ -136,14 +122,49 @@ table_cross = pd.merge(table_seq, table_ann, on ='key').drop("key", 1)
 table_matches = table_cross[(table_cross["End"] >= table_cross["s. start"]) & (table_cross["s. start"] >= table_cross["Start"])]
 table_matches = table_matches[columns_seq_alig + columns_ann]
 
-table_matches['Start'] = table_matches['Start'].astype(str).apply(lambda x: x.replace('.0',''))
-table_matches['End'] = table_matches['End'].astype(str).apply(lambda x: x.replace('.0',''))
+#Creo que esto tampoco hace falta, que es un resqucio de hacer el strat y end numeric cuando no hacia falta
 
 #Create a table with reads that have not been matched with annoted genes
 table_not_matches = table_seq[~table_seq["query acc."].isin(table_matches["query acc."])][columns_seq_alig]
 
 #Create the final csv file
-final_table = pd.concat([table_matches, table_not_matches],sort = False)
+final_table = pd.concat([table_matches, table_not_matches], sort = False)
+
+#------------------------------------------------------------
+#------------------------------------------------------------
+range_value = 0.01 #This is changeable
+
+#We remove the allignments that are not within the threshold that we put so we descart these alignments
+final_table["Highest bit score"] = final_table.groupby('query acc.', sort=False)['bit score'].transform('max')
+final_table.drop(final_table[final_table["bit score"] < final_table["Highest bit score"]*(1-range_value)].index, inplace=True)
+#now we can erase this column because it had already served its pupose
+del final_table["Highest bit score"]
+
+#Fill the Na for stetic purposes
+final_table.fillna("-",inplace=True)
+
+#We add the "warning" column in which we say if there are duplicates or not
+final_table["Multiple Allignment"] = final_table.duplicated(subset=["query acc."], keep=False)
+
+#Now we create the multiple locus column in case there are multiple allignments
+locus_associated = [] 
+for group_q_acc in final_table.groupby('query acc.', sort=False):
+    locus_associated_query = list(final_table[final_table["query acc."] == group_q_acc[0]]["Locus Tag"].values)
+    if len(locus_associated_query) > 1:
+        locus_associated_query = locus_associated_query[1:]
+    else:
+        locus_associated_query = "-"
+    locus_associated.append(locus_associated_query)
+
+#now we drop the duplicates only keeping the best alignment
+final_table.drop_duplicates(subset ="query acc.", inplace=True, keep="first")
+
+#We add to the table the locus column
+final_table["Rest of Locus Tag Associated"] = locus_associated
+
+#------------------
+#------------------
+
 final_table.to_csv(final_table_name,index=False)
 #------------------
 
