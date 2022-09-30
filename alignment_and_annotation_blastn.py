@@ -85,13 +85,13 @@ except:
 #Selected blastn output columns and genome annotations columns and significant score hit to elaborate final annotated table
 ## IMPORTANT!  VARIABLE PART OF THE SCRIPT (MODULAR)
 
-columns_output_blastn = []#This will be filled in case that we do not want the standard output
+columns_output_blastn = ["std", "sstrand"]#This will be filled in case that we do not want the standard output
                           #If empty will be the std output (check blastn manual for columns in standard output)
                           #It is needed that the query acc. and the bit score is there. The others are optional
 
 #Determine the columns that we want
 #Columns in the sequenece alignment file that we want (needs to be typed exactly as in the output of blastn)
-columns_seq_alig = ["query acc.", "s. start", "% identity", "alignment length", "mismatches", "gap opens", "evalue", "bit score"] #According to the variable columns_output_blastn, same order as blastn output
+columns_seq_alig = ["query acc.", "s. start", "% identity", "alignment length", "mismatches", "gap opens", "evalue", "bit score", "subject strand"] #According to the variable columns_output_blastn, same order as blastn output
 #It will give the output in the order of naming but without repetitions (if we put std score it will only print std)
 #IMPORTANT: query acc. and bit score is always needed
 #Columns of the gene annotation file that we want in the final annotated table
@@ -110,15 +110,18 @@ range_value = 0.01 #This is a variable we can set to identify significant alignm
 #We set the headers for the blastn output file (with -outfmt 6 there are no headers) with columns_output_blastn variable
 #Extra columns added are formatted adequately to proceed with the script
 
-if columns_output_blastn == True:
+if len(columns_output_blastn) > 0:
     command_of_6_17 = " ".join(columns_output_blastn)+"'"
-    header_output_6 = "\t".join(columns_output_blastn)
+    print(command_of_6_17)
+    header_output_6 = "query acc.\tsubject acc.\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score"+"\tsubject strand"
+    #header_output_6 = "\t".join(columns_output_blastn)
 else:
     command_of_6_17 = "std'"
     header_output_6 =  "query acc.\tsubject acc.\t% identity\talignment length\tmismatches\tgap opens\tq. start\tq. end\ts. start\ts. end\tevalue\tbit score"
 
 #Perform Blastn
 command_blastn_tabular_output = "blastn -query all_reads_merged.fna -db "+database+" -out ./results_script_blast/all_seq_aligned.txt -outfmt '6 "+command_of_6_17
+print(command_blastn_tabular_output)
 command_blastn_SAM_output = "blastn -query all_reads_merged.fna -db "+database+" -out ./results_script_blast/all_seq_aligned.sam -outfmt '17 "+command_of_6_17
 #It is possible to adjust with other arguments these expressions (check blastn manual)
 #The way of changing the output is -outfmt "6 std" for the standard output, other example  -outfmt "6 std staxid" this will give us the standard output and the tax id of the subject
