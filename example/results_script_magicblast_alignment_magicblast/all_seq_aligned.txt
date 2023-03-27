@@ -1,0 +1,8 @@
+# MAGICBLAST 1.5.0
+# magicblast -query all_reads_merged.txt -db Putida -out ./results_script_magicblast/all_seq_aligned.txt -outfmt tabular -splice F 
+# Fields: query acc.	reference acc.	% identity	not used	not used	not used	query start	query end	reference start	reference end	not used	not used	score	query strand	reference strand	query length	BTOP	num placements	not used	compartment	left overhang	right overhang	mate reference	mate ref. start	composite score
+H220128-001_E11_2103ZAB011_premix.ab1	-	0	0	0	0	0	0	0	0	0	99	0	-	-	1549	-	0	-	-	-	-	-	-	0
+H220128-001_I11_2103ZAB012_premix.ab1	refseq|NC_002947.4|chromosome	97.3958	0	0	0	167	549	5784706	5784323	0	99	334	plus	minus	1665	287AG4CG7TC21-G3TG5TC6TG17AC1AG1AC22	1	-	1:0	TCATCTCAGTTCCCTATCCCCCTCCCCTTA	TGCTTGATCCGATTCCGGGCGCTCGCAACA	-	-	334
+H220128-001_K11_2103ZAB013_premix.ab1	-	0	0	0	0	0	0	0	0	0	99	0	-	-	1118	-	0	-	-	-	-	-	-	0
+H220128-001_M11_2103ZAB014_premix.ab1	refseq|NC_002947.4|chromosome	98.2372	0	0	0	110	733	133360	132739	0	99	569	plus	minus	1474	11TCTC2TC34TCTC10TCTC5TC20TC260C-77G-194	1	-	1:1	TCTCTCTTATACACCTCCTCAGAGATTTTA	TAGAGAACCCCATAAAAACAAAAATCTTGC	-	-	569
+H220128-001_G11_2103ZAB015_premix.ab1	refseq|NC_002947.4|chromosome	100	0	0	0	208	395	5194684	5194871	0	99	188	plus	plus	1070	188	1	-	1:2	TGGTACGCGGCGATAGGTTCCAGTGCTCCA	AGTCCATTCGTGCCAAAAATAAAGATTGGC	-	-	188
