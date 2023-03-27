@@ -1,5 +1,0 @@
-query acc.,s. start,% identity,alignment length,mismatches,gap opens,evalue,bit score,subject strand,Locus Tag,Feature Type,Start,End,Strand,Gene Name,Product Name,Subcellular Localization [Confidence Class],Multiple Allignments,Rest of Locus Tag Associated
-H220128-001_I11_2103ZAB012_premix.ab1,5784706,95.36,431,14,6,0.0,680,minus,PP_5067,CDS,5781526.0,5784834.0,+,kefA,intermediate mechanosensitive channel protein,-,False,-
-H220128-001_K11_2103ZAB013_premix.ab1,1382084,83.866,688,75,33,1.4299999999999996e-178,623,plus,PP_1203,CDS,1381250.0,1382314.0,+,dinB,DNA polymerase IV,-,False,-
-H220128-001_M11_2103ZAB014_premix.ab1,133360,93.194,955,50,15,0.0,1389,minus,PP_0128,CDS,133223.0,134077.0,+,-,hypothetical protein,-,False,-
-H220128-001_G11_2103ZAB015_premix.ab1,5194566,84.926,544,65,14,6.599999999999998e-152,534,plus,PP_4574,CDS,5193680.0,5194858.0,+,-,hypothetical protein,-,False,-
