@@ -22,8 +22,8 @@ Every folder will have different number of outputs in the respective directory, 
 
 <h2>Output folders</h2>
 
- - **results_script_magicblast_alignment_magicblast**: directory with the results from the run of the script 'alignment_and_annotation.py'
+ - **results_script_magicblast_alignment_magicblast**: directory with the results from the run of the script _alignment_and_annotation.py_
  
- - **results_script_blast_v1_blastn**: directory with the results from the run of the script 'alignment_and_annotation_blastn.py'
+ - **results_script_blast_v1_blastn**: directory with the results from the run of the script _alignment_and_annotation_blastn.py_
  
- - **results_script_blast_v2_blastn**: directory with the results from the run of the script 'alignment_and_annotation_blastn_v2.py'
+ - **results_script_blast_v2_blastn**: directory with the results from the run of the script _alignment_and_annotation_blastn_v2.py_
