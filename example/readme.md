@@ -6,16 +6,16 @@ Every folder will have different number of outputs in the respective directory, 
 
 <h2>Input:</h2>
 
- - Pseudomonas_KT2240.csv is the annotated genome
+ - **Pseudomonas_KT2240.csv** is the annotated genome
   
- - Pseudomonas_KT2240.txt is the genome of the organism in FASTA format
+ - **Pseudomonas_KT2240.txt** is the genome of the organism in FASTA format
   
- - HC00422648 is the directory with an example of sequencing output reads with a txt extension
+ - **HC00422648** is the directory with an example of sequencing output reads with a txt extension
 
 <h2>Output:</h2>
 
- -  all_seq_aligned.tsv / all_seq_alligned.txt: tabular output of the BLAST with added header
+ -  **all_seq_aligned.tsv** / **all_seq_alligned.txt**: tabular output of the BLAST with added header
   
- - table_reads_genes_description.csv:  final table in comma sepataed values format
+ - **table_reads_genes_description.csv**:  final table in comma sepataed values format
   
- - all_seq_aligned.sam: sam output of the BLAST
+ -** all_seq_aligned.sam**: sam output of the BLAST
