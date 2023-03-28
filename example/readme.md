@@ -4,7 +4,7 @@ All results will be the output for the same set of reads (HC00422648) with the s
 
 Every folder will have different number of outputs in the respective directory, here we will explain the general purpose or description of each type of file
 
-<h2>Input:<h2>
+<h2>Input:</h2>
 
  - Pseudomonas_KT2240.csv is the annotated genome
   
@@ -12,7 +12,7 @@ Every folder will have different number of outputs in the respective directory, 
   
  - HC00422648 is the directory with an example of sequencing output reads with a txt extension
 
-<h2>Output:<h2>
+<h2>Output:</h2>
 
  -  all_seq_aligned.tsv / all_seq_alligned.txt: tabular output of the BLAST with added header
   
