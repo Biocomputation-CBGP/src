@@ -1,6 +1,6 @@
 In this directory we have an example with the input and output of the alignments with the different versions.
 
-All results will be the output for the same set of reads (HC00422648) with the same organism (Pseudomonas putida KT2240)
+All results will be the output for the same set of reads (HC00422648) with the same organism (*Pseudomonas putida KT2240*)
 
 Every folder will have different number of outputs in the respective directory, here we will explain the general purpose or description of each type of file
 
