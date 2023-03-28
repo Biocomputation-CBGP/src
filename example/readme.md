@@ -18,4 +18,4 @@ Every folder will have different number of outputs in the respective directory, 
   
  - **table_reads_genes_description.csv**:  final table in comma sepataed values format
   
- -** all_seq_aligned.sam**: sam output of the BLAST
+ - **all_seq_aligned.sam**: sam output of the BLAST
