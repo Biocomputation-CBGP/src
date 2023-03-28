@@ -19,3 +19,10 @@ Every folder will have different number of outputs in the respective directory, 
  - **table_reads_genes_description.csv**:  final table in comma sepataed values format
   
  - **all_seq_aligned.sam**: sam output of the BLAST
+
+<h2>Output folders</h2>
+ - **results_script_magicblast_alignment_magicblast**: directory with the results from the run of the script 'alignment_and_annotation.py'
+ 
+ - **results_script_blast_v1_blastn**: directory with the results from the run of the script 'alignment_and_annotation_blastn.py'
+ 
+ - **results_script_blast_v2_blastn**: directory with the results from the run of the script 'alignment_and_annotation_blastn_v2.py'
